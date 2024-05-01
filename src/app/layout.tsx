@@ -1,11 +1,12 @@
 import "@/styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
 import db from "@/server/db";
+import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 
-const inter = Inter({
+const nunito = Nunito({
   subsets: ["latin"],
-  variable: "--font-sans",
+  display: "swap",
 });
 
 export const metadata = {
@@ -22,7 +23,11 @@ export default function RootLayout({
   // console.log(db);
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>{children}</body>
+      <body className={`${nunito.className}`}>
+        <main className="h-full">
+          <MaxWidthWrapper>{children}</MaxWidthWrapper>
+        </main>
+      </body>
     </html>
   );
 }
