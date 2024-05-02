@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Nunito } from "next/font/google";
 import db from "@/server/db";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
+import { ThemeProvider } from "@/lib/providers/theme-provider";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -20,13 +21,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // console.log(db);
   return (
     <html lang="en">
       <body className={`${nunito.className}`}>
-        <main className="h-full">
-          <MaxWidthWrapper>{children}</MaxWidthWrapper>
-        </main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className="h-full">
+            <MaxWidthWrapper>{children}</MaxWidthWrapper>
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
