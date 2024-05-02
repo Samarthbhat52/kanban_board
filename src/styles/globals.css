@@ -69,7 +69,6 @@
 @layer base {
   * {
     @apply border-border;
-    font-size: 100%;
   }
   body {
     @apply bg-background text-foreground;
@@ -77,5 +76,32 @@
   html,
   body {
     height: 100svh;
+    font-size: calc(15px + 0.390625vw);
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  .dotted-bg {
+    --dot-size: 1px;
+    --dot-space: 40px;
+    background:
+      linear-gradient(
+          90deg,
+          hsl(var(--background)) calc(var(--dot-space) - var(--dot-size)),
+          transparent 1%
+        )
+        center / var(--dot-space) var(--dot-space),
+      linear-gradient(
+          hsl(var(--background)) calc(var(--dot-space) - var(--dot-size)),
+          transparent 1%
+        )
+        center / var(--dot-space) var(--dot-space),
+      hsl(var(--muted-foreground));
   }
 }

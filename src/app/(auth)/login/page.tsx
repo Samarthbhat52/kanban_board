@@ -52,7 +52,7 @@ const LoginPage = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full max-w-[300px] space-y-5"
+            className="w-full space-y-5"
           >
             <FormField
               control={form.control}
