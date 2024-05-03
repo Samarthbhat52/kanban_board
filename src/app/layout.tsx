@@ -13,7 +13,7 @@ export const metadata = {
   title: "Boardify",
   description:
     "Welcome to our Boardify! Simplify task management and boost productivity.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.png" }],
 };
 
 export default function RootLayout({
