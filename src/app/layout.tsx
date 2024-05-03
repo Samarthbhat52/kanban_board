@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Nunito } from "next/font/google";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
+import ReactQueryProvider from "@/lib/providers/ReactQueryProvider";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -30,9 +31,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="h-full">
-            <MaxWidthWrapper>{children}</MaxWidthWrapper>
-          </main>
+          <ReactQueryProvider>
+            <main className="h-full">
+              <MaxWidthWrapper>{children}</MaxWidthWrapper>
+            </main>
+          </ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>
