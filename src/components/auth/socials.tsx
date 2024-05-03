@@ -4,24 +4,36 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
+import { useState } from "react";
+import { Icons } from "@/components/icons";
 
 export const SocialButtons = () => {
   const supabase = createClient();
-  const loginWithGoogle = () => {
-    supabase.auth.signInWithOAuth({
+  const [loading, setLoading] = useState(false);
+
+  const loginWithGoogle = async () => {
+    setLoading(true);
+
+    await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: `${location.origin}/callback`,
       },
     });
+
+    setLoading(false);
   };
-  const loginWithGitHub = () => {
-    supabase.auth.signInWithOAuth({
+  const loginWithGitHub = async () => {
+    setLoading(true);
+
+    await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
         redirectTo: `${location.origin}/callback`,
       },
     });
+
+    setLoading(false);
   };
 
   return (
@@ -33,6 +45,7 @@ export const SocialButtons = () => {
         variant="secondary"
         onClick={loginWithGoogle}
       >
+        {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
         <FcGoogle size={22} />
         <p>Login with Google</p>
       </Button>
@@ -43,6 +56,7 @@ export const SocialButtons = () => {
         variant="secondary"
         onClick={loginWithGitHub}
       >
+        {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
         <FaGithub size={22} />
         <p>Login with GitHub</p>
       </Button>
