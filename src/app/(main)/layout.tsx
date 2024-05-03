@@ -1,13 +1,13 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
+const MainLayout = async ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
 
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (data.user) {
-    return redirect("/home");
+  if (error || !data.user) {
+    return redirect("/");
   }
 
   return (
@@ -17,4 +17,4 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AuthLayout;
+export default MainLayout;

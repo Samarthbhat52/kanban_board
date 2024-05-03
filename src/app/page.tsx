@@ -1,8 +1,24 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { Dancing_Script } from "next/font/google";
 import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
+const dancingScript = Dancing_Script({
+  subsets: ["latin"],
+});
+
+export default async function HomePage() {
+  const supabase = createClient();
+
+  const { data } = await supabase.auth.getUser();
+
+  if (data.user) {
+    return redirect("/home");
+  }
+
   return (
     <>
       <div className="dotted-bg absolute left-0 top-0 z-[-10] h-full w-full"></div>
@@ -20,28 +36,38 @@ export default function HomePage() {
           />
         </div>
       </div>
-      <div className="flex min-h-screen w-full flex-col items-center justify-start px-10 pb-12 pt-28 text-center sm:pt-40">
-        <div className="mx-auto mb-4 flex max-w-fit cursor-pointer items-center justify-center space-x-2 overflow-hidden rounded-full border bg-muted px-7 py-2 shadow-md backdrop-blur transition-all hover:border-[#ff80b5] hover:bg-muted/50">
-          <p className="font-semibold">✨ Your Workflow, Perfected.</p>
+      <div className="flex min-h-screen w-full flex-col items-center gap-10 text-center sm:gap-5">
+        <nav className="flex w-full items-center justify-between py-5">
+          <Link href="/">
+            <h2>Logo</h2>
+          </Link>
+          <Link
+            className={buttonVariants({
+              size: "sm",
+            })}
+            href="/login"
+          >
+            Get started <ArrowRight className="ml-2 h-5 w-5" />
+          </Link>
+        </nav>
+        <div className="flex flex-col items-center gap-2">
+          <div className="mx-auto mb-4 flex max-w-fit cursor-pointer items-center justify-center space-x-2 overflow-hidden rounded-full border bg-muted px-7 py-2 shadow-md backdrop-blur transition-all hover:border-[#ff80b5] hover:bg-muted/50">
+            <p className="font-semibold">✨ Your Workflow, Perfected.</p>
+          </div>
+          <h1 className="mt-5 max-w-4xl text-4xl font-bold md:text-5xl lg:text-6xl">
+            Empower Your Productivity: Welcome to{" "}
+            <span
+              className={cn("font-bold text-blue-500", dancingScript.className)}
+            >
+              Boardify
+            </span>{" "}
+            - Where Task Management Meets Simplicity!
+          </h1>
+          <p className="mt-5 max-w-prose text-gray-400">
+            Welcome to our Boardify! Simplify task management and boost
+            productivity. Get started today!
+          </p>
         </div>
-        <h1 className="mt-5 max-w-4xl text-4xl font-bold md:text-5xl lg:text-6xl">
-          Unlock Your Productivity:{" "}
-          <span className="text-blue-500">Kanban</span> Made Simple.
-        </h1>
-        <p className="mt-5 max-w-prose text-gray-400">
-          Welcome to our Kanban Board platform! Simplify task management, boost
-          productivity, and collaborate effortlessly. Get started today!
-        </p>
-        <Link
-          className={buttonVariants({
-            size: "lg",
-            className: "mt-5",
-          })}
-          href="/login"
-          target="_blank"
-        >
-          Get started <ArrowRight className="ml-2 h-5 w-5" />
-        </Link>
       </div>
     </>
   );
