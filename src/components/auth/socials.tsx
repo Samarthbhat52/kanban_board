@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/global/icons";
 
 export const SocialButtons = () => {
   const supabase = createClient();

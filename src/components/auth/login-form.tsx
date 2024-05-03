@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/global/icons";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SeparatorWithLabel } from "@/components/SeparatorWithLabel";
+import { SeparatorWithLabel } from "@/components/global/SeparatorWithLabel";
 import { SocialButtons } from "@/components/auth/socials";
 import { createClient } from "@/lib/supabase/client";
 

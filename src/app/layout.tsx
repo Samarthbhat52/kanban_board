@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import { Nunito } from "next/font/google";
-import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
+import { MaxWidthWrapper } from "@/components/global/MaxWidthWrapper";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import ReactQueryProvider from "@/lib/providers/ReactQueryProvider";
 

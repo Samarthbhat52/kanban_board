@@ -46,7 +46,7 @@ export type Database = {
           banner_url: string | null
           created_at: string
           data: string | null
-          icon_id: string
+          description: string | null
           id: string
           in_trash: string | null
           logo: string | null
@@ -58,19 +58,19 @@ export type Database = {
           banner_url?: string | null
           created_at?: string
           data?: string | null
-          icon_id: string
+          description?: string | null
           id?: string
           in_trash?: string | null
           logo?: string | null
           title: string
           updatedAt?: string | null
-          workspace_owner: string
+          workspace_owner?: string
         }
         Update: {
           banner_url?: string | null
           created_at?: string
           data?: string | null
-          icon_id?: string
+          description?: string | null
           id?: string
           in_trash?: string | null
           logo?: string | null

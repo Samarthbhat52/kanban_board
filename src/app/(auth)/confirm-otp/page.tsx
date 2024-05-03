@@ -25,7 +25,7 @@ import Image from "next/image";
 import { useSearchParams, redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/global/icons";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -65,7 +65,7 @@ const ConfirmOtpPage = () => {
     }
 
     setLoading(false);
-    router.replace("/home");
+    router.replace("/dashboard");
   }
 
   return (
