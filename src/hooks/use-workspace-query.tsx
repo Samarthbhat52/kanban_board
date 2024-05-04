@@ -10,9 +10,9 @@ function useWorkspaceQuery() {
     queryFn: async () =>
       await supabase
         .from("workspaces")
-        .select("id")
-        .throwOnError()
-        .maybeSingle(),
+        .select("id, title, logo")
+        .throwOnError(),
+    gcTime: 20000,
   });
 }
 
