@@ -24,8 +24,7 @@ import Image from "next/image";
 
 import { useSearchParams, redirect, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
-import { Icons } from "@/components/global/icons";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -39,8 +38,6 @@ const ConfirmOtpPage = () => {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") as string;
 
-  const [loading, setLoading] = useState(false);
-
   if (!email) {
     return redirect("/");
   }
@@ -52,20 +49,29 @@ const ConfirmOtpPage = () => {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setLoading(true);
-    const { error } = await supabase.auth.verifyOtp({
-      email,
-      token: data.pin,
-      type: "email",
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    const checkOTP = async () => {
+      const { data: userdata, error } = await supabase.auth.verifyOtp({
+        email,
+        token: data.pin,
+        type: "email",
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return userdata;
+    };
+
+    toast.promise(checkOTP, {
+      loading: "Verifying OTP",
+      success: () => {
+        router.replace("/dashboard");
+        return `successfully logged in`;
+      },
+      error: "Something went wrong",
     });
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    setLoading(false);
-    router.replace("/dashboard");
   }
 
   return (
@@ -119,10 +125,7 @@ const ConfirmOtpPage = () => {
           )}
         />
 
-        <Button type="submit">
-          {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
         <Link href={"/login"}>
           <p className="text-sm underline">Back to login.</p>
         </Link>

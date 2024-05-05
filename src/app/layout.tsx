@@ -4,6 +4,7 @@ import { Nunito } from "next/font/google";
 import { MaxWidthWrapper } from "@/components/global/MaxWidthWrapper";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import ReactQueryProvider from "@/lib/providers/ReactQueryProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -24,15 +25,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${nunito.className} h-[100svh] p-2`}>
+      <body className={`${nunito.className} h-[100svh] px-2 sm:px-0`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
           <ReactQueryProvider>
             <main className="h-[100svh]">
+              <Toaster position="top-center" richColors />
               <MaxWidthWrapper>{children}</MaxWidthWrapper>
             </main>
           </ReactQueryProvider>

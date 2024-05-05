@@ -3,7 +3,6 @@
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/global/icons";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -23,6 +22,8 @@ import { Input } from "@/components/ui/input";
 import { SeparatorWithLabel } from "@/components/global/SeparatorWithLabel";
 import { SocialButtons } from "@/components/auth/socials";
 import { createClient } from "@/lib/supabase/client";
+import { Spinner } from "@/components/global/spinner";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email().min(1, { message: "Email is a required field" }),
@@ -47,6 +48,7 @@ export function LoginForm() {
     });
 
     if (error) {
+      toast.error(error.message);
       throw new Error(error.message);
     }
 
@@ -99,7 +101,9 @@ export function LoginForm() {
               />
               <Button type="submit" className="w-full">
                 {loading && (
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  <div className="mr-2">
+                    <Spinner size="sm" />
+                  </div>
                 )}
                 Login
               </Button>
