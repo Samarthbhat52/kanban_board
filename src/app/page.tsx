@@ -37,7 +37,7 @@ export default async function HomePage() {
           />
         </div>
       </div>
-      <div className="flex min-h-screen w-full flex-col items-center gap-10 text-center sm:gap-5">
+      <div className="flex min-h-screen w-full flex-col items-center gap-10 px-2 text-center sm:gap-5">
         <nav className="flex w-full items-center justify-between py-5">
           <Link href="/">
             <Image
