@@ -2,12 +2,14 @@
 
 import useWorkspaceQuery from "@/hooks/use-workspace-query";
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, ChevronsRight, MenuIcon } from "lucide-react";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { WorkspaceSwitcher } from "./workspace-switcher";
 import { Separator } from "@/components/ui/separator";
+import Boards from "@/components/dashboard/boards";
+import { Spinner } from "@/components/global/spinner";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -97,14 +99,19 @@ const Sidebar = () => {
     }
   };
 
-  if (isLoading) return <p>Loading</p>;
+  if (isLoading)
+    return (
+      <div className="flex h-full items-center justify-center sm:w-[240px]">
+        <Spinner />
+      </div>
+    );
 
   return (
     <>
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar relative z-[99999] flex h-full w-60 flex-col overflow-y-auto",
+          "group/sidebar relative z-[99999] flex h-full w-60 flex-col gap-2 overflow-y-auto",
           isResetting && "transition-all duration-300 ease-in-out",
           isMobile && "w-0",
         )}
@@ -120,14 +127,11 @@ const Sidebar = () => {
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div>
-          <WorkspaceSwitcher
-            isCollapsed={isCollapsed}
-            workspaces={workspace?.data!}
-          />
+          <WorkspaceSwitcher workspaces={workspace!} />
         </div>
         <Separator />
-        <div className="mt-4">
-          <p>Documents</p>
+        <div>
+          <Boards />
         </div>
         <div
           onMouseDown={handleMouseDown}

@@ -5,7 +5,8 @@ import { FaGithub } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
-import { Icons } from "@/components/global/icons";
+import { Spinner } from "@/components/global/spinner";
+import { toast } from "sonner";
 
 export const SocialButtons = () => {
   const supabase = createClient();
@@ -14,24 +15,32 @@ export const SocialButtons = () => {
   const loginWithGoogle = async () => {
     setLoading(true);
 
-    await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: `${location.origin}/callback`,
       },
     });
 
+    if (error) {
+      toast.error(error.message);
+    }
+
     setLoading(false);
   };
   const loginWithGitHub = async () => {
     setLoading(true);
 
-    await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
         redirectTo: `${location.origin}/callback`,
       },
     });
+
+    if (error) {
+      toast.error(error.message);
+    }
 
     setLoading(false);
   };
@@ -45,7 +54,11 @@ export const SocialButtons = () => {
         variant="secondary"
         onClick={loginWithGoogle}
       >
-        {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+        {loading && (
+          <div className="mr-2">
+            <Spinner size="sm" />
+          </div>
+        )}
         <FcGoogle size={22} />
         <p>Login with Google</p>
       </Button>
@@ -56,7 +69,11 @@ export const SocialButtons = () => {
         variant="secondary"
         onClick={loginWithGitHub}
       >
-        {loading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+        {loading && (
+          <div className="mr-2">
+            <Spinner size="sm" />
+          </div>
+        )}
         <FaGithub size={22} />
         <p>Login with GitHub</p>
       </Button>
