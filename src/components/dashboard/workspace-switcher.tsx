@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import useWorkspaceIdStore from "@/stores/workspaceIdStore";
+
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -12,7 +14,6 @@ import {
 } from "@/components/ui/select";
 
 interface WoskspaceProps {
-  isCollapsed: boolean;
   workspaces: {
     id: string;
     title: string;
@@ -20,10 +21,12 @@ interface WoskspaceProps {
   }[];
 }
 
-export function WorkspaceSwitcher({ isCollapsed, workspaces }: WoskspaceProps) {
-  const [selectedWorkspace, setSelectedWorkspace] = React.useState<
-    string | undefined
-  >(workspaces[0]?.id);
+export function WorkspaceSwitcher({ workspaces }: WoskspaceProps) {
+  const { workspaceId, setWorkspaceId } = useWorkspaceIdStore();
+
+  React.useEffect(() => {
+    setWorkspaceId(workspaces[0]?.id);
+  }, []);
 
   return (
     <div
@@ -31,25 +34,20 @@ export function WorkspaceSwitcher({ isCollapsed, workspaces }: WoskspaceProps) {
         "w-[calc(100%-50px)] p-2 transition duration-300 ease-in-out group-hover/sidebar:w-[calc(100%-50px)] sm:w-full",
       )}
     >
-      <Select
-        defaultValue={selectedWorkspace}
-        onValueChange={setSelectedWorkspace}
-      >
+      <Select defaultValue={workspaces[0]?.id} onValueChange={setWorkspaceId}>
         <SelectTrigger aria-label="Select Workspace">
           <SelectValue placeholder="Select a workspace">
             <div className="flex gap-2">
               <span>
                 {
-                  workspaces.find(
-                    (workspace) => workspace.id === selectedWorkspace,
-                  )?.logo
+                  workspaces.find((workspace) => workspace.id === workspaceId)
+                    ?.logo
                 }
               </span>
               <span className="line-clamp-1 text-start">
                 {
-                  workspaces.find(
-                    (workspace) => workspace.id === selectedWorkspace,
-                  )?.title
+                  workspaces.find((workspace) => workspace.id === workspaceId)
+                    ?.title
                 }
               </span>
             </div>
