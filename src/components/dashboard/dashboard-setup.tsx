@@ -7,18 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-
-import EmojiPicker from "@/components/global/emoji-picker";
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,8 +15,8 @@ import { z } from "zod";
 import { useMutation, QueryClient } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
-import { Spinner } from "@/components/global/spinner";
 import { useRouter } from "next/navigation";
+import CreateWorkspaceForm from "@/components/dashboard/create-workspace-form";
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
@@ -76,53 +64,7 @@ const DashboardSetup = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="flex items-center gap-4">
-              <div className="text-5xl">
-                <EmojiPicker getValue={(emoji) => setLogo(emoji)}>
-                  {logo}
-                </EmojiPicker>
-              </div>
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormControl>
-                      <Input placeholder="Workspace Name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Description"
-                      className="h-20 resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button className="w-full" type="submit">
-              {isPending && (
-                <div className="mr-2">
-                  <Spinner size="sm" />
-                </div>
-              )}
-              Submit
-            </Button>
-          </form>
-        </Form>
+        <CreateWorkspaceForm submitButton />
       </CardContent>
     </Card>
   );

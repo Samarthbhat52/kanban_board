@@ -3,22 +3,24 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
 function useWorkspaceQuery() {
-  const queryKey = ["workspace"];
   const supabase = createClient();
 
   return useQuery({
-    queryKey,
+    queryKey: ["workspace"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("workspaces")
         .select("id, title, logo")
+        .order("created_at", { ascending: false })
         .throwOnError();
 
       if (error) toast.error("Something went wrong. Please try reloading.");
 
-      return data || [];
+      if (data) {
+        return data;
+      }
+      return [];
     },
-    gcTime: 20000,
   });
 }
 

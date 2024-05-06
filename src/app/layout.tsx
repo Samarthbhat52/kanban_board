@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={`${nunito.className} h-[100svh] px-2 sm:px-0`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
