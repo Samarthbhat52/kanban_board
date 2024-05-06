@@ -1,6 +1,5 @@
 "use client";
 
-import useWorkspaceQuery from "@/hooks/use-workspace-query";
 import { cn } from "@/lib/utils";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -9,12 +8,10 @@ import { useMediaQuery } from "usehooks-ts";
 import { WorkspaceSwitcher } from "./workspace-switcher";
 import { Separator } from "@/components/ui/separator";
 import Boards from "@/components/dashboard/boards";
-import { Spinner } from "@/components/global/spinner";
 
 const Sidebar = () => {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const { data: workspace, isLoading } = useWorkspaceQuery();
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -99,19 +96,12 @@ const Sidebar = () => {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="flex h-full items-center justify-center sm:w-[240px]">
-        <Spinner />
-      </div>
-    );
-
   return (
     <>
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar relative z-[99999] flex h-full w-60 flex-col gap-2 overflow-y-auto",
+          "group/sidebar relative flex h-full w-[240px] flex-col gap-2 overflow-y-auto",
           isResetting && "transition-all duration-300 ease-in-out",
           isMobile && "w-0",
         )}
@@ -127,7 +117,7 @@ const Sidebar = () => {
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div>
-          <WorkspaceSwitcher workspaces={workspace!} />
+          <WorkspaceSwitcher />
         </div>
         <Separator />
         <div>

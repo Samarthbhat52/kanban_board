@@ -86,8 +86,6 @@ export type Database = {
         Row: {
           banner_url: string | null
           created_at: string
-          data: string | null
-          description: string | null
           id: string
           in_trash: string | null
           logo: string | null
@@ -98,8 +96,6 @@ export type Database = {
         Insert: {
           banner_url?: string | null
           created_at?: string
-          data?: string | null
-          description?: string | null
           id?: string
           in_trash?: string | null
           logo?: string | null
@@ -110,8 +106,6 @@ export type Database = {
         Update: {
           banner_url?: string | null
           created_at?: string
-          data?: string | null
-          description?: string | null
           id?: string
           in_trash?: string | null
           logo?: string | null

@@ -18,12 +18,11 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
     .from("workspaces")
     .select("id, title, logo")
     .throwOnError()
-    .maybeSingle();
+    .limit(1);
 
-  if (workspaceError)
-    toast.error("Something went wrong. Please try again later.");
+  if (workspaceError) throw new Error(workspaceError.message);
 
-  if (!workspaceData)
+  if (!workspaceData.length)
     return (
       <div className="flex h-full w-full items-start justify-center pt-2 sm:items-center sm:pt-0">
         <DashboardSetup />
