@@ -14,8 +14,8 @@ const Boards = () => {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="flex flex-1 flex-col gap-4 px-2">
-      <h2>Boards</h2>
+    <div className="flex flex-1 flex-col gap-4">
+      <h4>Boards</h4>
       {data?.length ? (
         data.map((board) => (
           <Button variant={"ghost"} className="space-x-2">

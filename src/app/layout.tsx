@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${nunito.className} h-[100svh] px-2 sm:px-0`}>
+      <body className={`${nunito.className}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -33,7 +33,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ReactQueryProvider>
-            <main className="h-[100svh]">
+            <main className="h-[calc(100dvh)]">
               <Toaster position="top-center" richColors />
               <MaxWidthWrapper>{children}</MaxWidthWrapper>
             </main>

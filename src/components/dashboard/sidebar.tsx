@@ -1,13 +1,16 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronsLeft, ChevronsRight, Settings, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { WorkspaceSwitcher } from "./workspace-switcher";
+import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import Boards from "@/components/dashboard/boards";
+import Link from "next/link";
+import { Button, buttonVariants } from "../ui/button";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -49,7 +52,7 @@ const Sidebar = () => {
 
     let newWidth = event.clientX;
 
-    if (newWidth < 240) newWidth = 240;
+    if (newWidth < 270) newWidth = 270;
     if (newWidth > 480) newWidth = 480;
 
     if (sidebarRef.current && navbarRef.current) {
@@ -73,12 +76,12 @@ const Sidebar = () => {
       setIsCollapsed(false);
       setIsResetting(true);
 
-      sidebarRef.current.style.width = isMobile ? "100%" : "240px";
+      sidebarRef.current.style.width = isMobile ? "100%" : "270px";
       navbarRef.current.style.setProperty(
         "width",
-        isMobile ? "0" : "calc(100% - 240px)",
+        isMobile ? "0" : "calc(100% - 270px)",
       );
-      navbarRef.current.style.setProperty("left", isMobile ? "100%" : "240px");
+      navbarRef.current.style.setProperty("left", isMobile ? "100%" : "270px");
       setTimeout(() => setIsResetting(false), 300);
     }
   };
@@ -101,38 +104,71 @@ const Sidebar = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar relative flex h-full w-[240px] flex-col gap-2 overflow-y-auto",
+          "group/sidebar flex h-[calc(100dvh)] w-[270px] flex-col justify-between overflow-y-auto p-2",
           isResetting && "transition-all duration-300 ease-in-out",
+          isCollapsed && "p-0",
           isMobile && "w-0",
         )}
       >
-        <div
-          role="button"
-          onClick={collapse}
-          className={cn(
-            "focus absolute right-2 top-4 h-6 w-6 rounded-sm text-muted-foreground opacity-0 transition hover:bg-neutral-300 group-hover/sidebar:opacity-100 dark:hover:bg-neutral-600",
-            isMobile && "opacity-100",
-          )}
-        >
-          <ChevronsLeft className="h-6 w-6" />
-        </div>
-        <div>
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between py-4">
+            {/* <WorkspaceSwitcher /> */}
+            <Image
+              src="/logo-coloured.svg"
+              width="150"
+              height="80"
+              alt="Logo"
+              className="w-200 dark:hidden"
+            />
+            <Image
+              src="/logo-light.svg"
+              width="150"
+              height="80"
+              alt="Logo"
+              className="w-200 hidden dark:block"
+            />
+            <div
+              role="button"
+              onClick={collapse}
+              className={cn(
+                "focus h-6 w-6 rounded-sm text-muted-foreground opacity-0 transition hover:bg-neutral-300 group-hover/sidebar:opacity-100 dark:hover:bg-neutral-600",
+                isMobile && "opacity-100",
+              )}
+            >
+              <ChevronsLeft className="h-6 w-6" />
+            </div>
+          </div>
           <WorkspaceSwitcher />
-        </div>
-        <Separator />
-        <div>
+          <Separator />
           <Boards />
+          <div
+            onMouseDown={handleMouseDown}
+            onClick={resetWidth}
+            className="absolute right-0 top-0 hidden h-[calc(100dvh)] w-1 cursor-ew-resize bg-primary/10 opacity-0 transition group-hover/sidebar:opacity-100 sm:block"
+          />
         </div>
-        <div
-          onMouseDown={handleMouseDown}
-          onClick={resetWidth}
-          className="absolute right-0 top-0 hidden h-full w-1 cursor-ew-resize bg-primary/10 opacity-0 transition group-hover/sidebar:opacity-100 sm:block"
-        />
+        <div>
+          <Separator />
+          <div className="flex flex-col gap-2 py-2">
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/" className="flex items-center gap-3">
+                <Settings className="text-foreground" />
+                <p>Settings</p>
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/" className="flex items-center gap-3">
+                <User className="text-foreground" />
+                <p>Profile</p>
+              </Link>
+            </Button>
+          </div>
+        </div>
       </aside>
       <div
         ref={navbarRef}
         className={cn(
-          "w-[calc(100% - 240px)] absolute left-60 top-0 z-[99999]",
+          "w-[calc(100% - 270px)] absolute left-60 top-0 ",
           isResetting && "transition-all duration-300 ease-in-out",
           isMobile && "left-0 w-full",
         )}

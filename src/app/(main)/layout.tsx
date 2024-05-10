@@ -1,9 +1,8 @@
-import DashboardSetup from "@/components/dashboard/dashboard-setup";
 import Sidebar from "@/components/dashboard/sidebar";
+import OnboardingForm from "@/components/onboarding/onboarding-form";
 import { Separator } from "@/components/ui/separator";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { toast } from "sonner";
 
 const MainLayout = async ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
@@ -24,16 +23,16 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
 
   if (!workspaceData.length)
     return (
-      <div className="flex h-full w-full items-start justify-center pt-2 sm:items-center sm:pt-0">
-        <DashboardSetup />
+      <div className="flex h-[calc(100dvh)] w-full max-w-[1920px] items-start justify-center pt-2 sm:items-center sm:pt-0">
+        <OnboardingForm />
       </div>
     );
 
   return (
-    <div className="flex h-full bg-background">
+    <div className="flex h-[calc(100dvh)] bg-background">
       <Sidebar />
       <Separator orientation="vertical" className="hidden sm:block" />
-      <div className="flex h-full flex-1 items-center justify-center overflow-y-auto">
+      <div className="flex h-[calc(100dvh)] flex-1 items-center justify-center overflow-y-auto">
         {children}
       </div>
     </div>
