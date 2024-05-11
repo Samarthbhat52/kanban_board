@@ -78,7 +78,7 @@ const OnboardingForm = () => {
   };
 
   return (
-    <>
+    <div className="flex h-[calc(100dvh)] w-full max-w-[1920px] items-start justify-center pt-2 sm:items-center sm:pt-0">
       <div
         aria-hidden="true"
         className="sm:-top-30 pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[calc(100dvh)] w-full transform-gpu overflow-hidden blur-3xl"
@@ -179,7 +179,7 @@ const OnboardingForm = () => {
           </motion.div>
         )}
       </motion.div>
-    </>
+    </div>
   );
 };
 export default OnboardingForm;

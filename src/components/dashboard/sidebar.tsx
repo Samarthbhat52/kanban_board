@@ -8,15 +8,14 @@ import { useMediaQuery } from "usehooks-ts";
 import { WorkspaceSwitcher } from "./workspace-switcher";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import Boards from "@/components/dashboard/boards";
+import BoardsList from "@/components/dashboard/boards-list";
 import Link from "next/link";
-import { Button, buttonVariants } from "../ui/button";
+import { Button } from "../ui/button";
 
 const Sidebar = () => {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
@@ -35,41 +34,6 @@ const Sidebar = () => {
       collapse();
     }
   }, [pathname, isMobile]);
-
-  const handleMouseDown = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    isResizingRef.current = true;
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
-
-  const handleMouseMove = (event: MouseEvent) => {
-    if (!isResizingRef.current) return;
-
-    let newWidth = event.clientX;
-
-    if (newWidth < 270) newWidth = 270;
-    if (newWidth > 480) newWidth = 480;
-
-    if (sidebarRef.current && navbarRef.current) {
-      sidebarRef.current.style.width = `${newWidth}px`;
-      navbarRef.current.style.setProperty("left", `${newWidth}px`);
-      navbarRef.current.style.setProperty(
-        "width",
-        `calc(100% - ${newWidth}px)`,
-      );
-    }
-  };
-
-  const handleMouseUp = () => {
-    isResizingRef.current = false;
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
 
   const resetWidth = () => {
     if (sidebarRef.current && navbarRef.current) {
@@ -112,7 +76,6 @@ const Sidebar = () => {
       >
         <div className="flex flex-col gap-4">
           <div className="flex justify-between py-4">
-            {/* <WorkspaceSwitcher /> */}
             <Image
               src="/logo-coloured.svg"
               width="150"
@@ -140,24 +103,19 @@ const Sidebar = () => {
           </div>
           <WorkspaceSwitcher />
           <Separator />
-          <Boards />
-          <div
-            onMouseDown={handleMouseDown}
-            onClick={resetWidth}
-            className="absolute right-0 top-0 hidden h-[calc(100dvh)] w-1 cursor-ew-resize bg-primary/10 opacity-0 transition group-hover/sidebar:opacity-100 sm:block"
-          />
+          <BoardsList />
         </div>
         <div>
           <Separator />
           <div className="flex flex-col gap-2 py-2">
             <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/" className="flex items-center gap-3">
+              <Link href="/settings" className="flex items-center gap-3">
                 <Settings className="text-foreground" />
                 <p>Settings</p>
               </Link>
             </Button>
             <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/" className="flex items-center gap-3">
+              <Link href="/profile" className="flex items-center gap-3">
                 <User className="text-foreground" />
                 <p>Profile</p>
               </Link>

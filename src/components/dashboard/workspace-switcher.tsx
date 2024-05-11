@@ -4,8 +4,6 @@ import * as React from "react";
 
 import useWorkspaceIdStore from "@/stores/workspaceIdStore";
 
-import { cn } from "@/lib/utils";
-
 import {
   Select,
   SelectContent,

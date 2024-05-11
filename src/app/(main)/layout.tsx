@@ -15,18 +15,12 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
 
   const { data: workspaceData, error: workspaceError } = await supabase
     .from("workspaces")
-    .select("id, title, logo")
-    .throwOnError()
+    .select("id")
     .limit(1);
 
   if (workspaceError) throw new Error(workspaceError.message);
 
-  if (!workspaceData.length)
-    return (
-      <div className="flex h-[calc(100dvh)] w-full max-w-[1920px] items-start justify-center pt-2 sm:items-center sm:pt-0">
-        <OnboardingForm />
-      </div>
-    );
+  if (!workspaceData.length) return <OnboardingForm />;
 
   return (
     <div className="flex h-[calc(100dvh)] bg-background">
