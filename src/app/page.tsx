@@ -22,11 +22,11 @@ export default async function HomePage() {
 
   return (
     <>
-      <div className="dotted-bg absolute left-0 top-0 z-[-10] h-full w-full"></div>
+      <div className="dotted-bg absolute left-0 top-0 z-[-10] h-[calc(100dvh)] w-full"></div>
       <div>
         <div
           aria-hidden="true"
-          className="sm:-top-30 pointer-events-none absolute inset-x-0 -top-40 -z-10 h-full w-full transform-gpu overflow-hidden blur-3xl"
+          className="sm:-top-30 pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[calc(100dvh)] w-full transform-gpu overflow-hidden blur-3xl"
         >
           <div
             style={{
@@ -37,7 +37,7 @@ export default async function HomePage() {
           />
         </div>
       </div>
-      <div className="flex min-h-screen w-full flex-col items-center gap-10 px-2 text-center sm:gap-5">
+      <div className="flex h-[calc(100dvh)] w-full flex-col items-center gap-10 px-2 text-center sm:gap-5">
         <nav className="flex w-full items-center justify-between py-5">
           <Link href="/">
             <Image
@@ -45,7 +45,14 @@ export default async function HomePage() {
               width="150"
               height="80"
               alt="Logo"
-              className="w-200"
+              className="w-200 dark:hidden"
+            />
+            <Image
+              src="/logo-light.svg"
+              width="150"
+              height="80"
+              alt="Logo"
+              className="w-200 hidden dark:block"
             />
           </Link>
           <Link

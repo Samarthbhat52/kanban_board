@@ -4,7 +4,6 @@ import * as React from "react";
 
 import useWorkspaceIdStore from "@/stores/workspaceIdStore";
 
-import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -13,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
   Dialog,
   DialogContent,
@@ -22,15 +22,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
+
+import { Button } from "@/components/ui/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
 import CreateWorkspaceForm from "@/components/dashboard/create-workspace-form";
 import useWorkspaceQuery from "@/hooks/use-workspace-query";
 import { Spinner } from "@/components/global/spinner";
-
-import { useQuery } from "@tanstack/react-query";
-import { createClient } from "@/lib/supabase/client";
 
 export function WorkspaceSwitcher() {
   const [selectOpen, setSelectOpen] = React.useState(false);
@@ -48,29 +46,27 @@ export function WorkspaceSwitcher() {
 
   if (isLoading)
     return (
-      <div className="flex h-full items-center justify-center sm:w-[240px]">
-        <Spinner />
+      <div className="flex h-12 items-center justify-center sm:w-[240px]">
+        <Spinner size="lg" />
       </div>
     );
 
   return (
-    <div
-      className={cn(
-        "w-[calc(100%-50px)] p-2 transition duration-300 ease-in-out group-hover/sidebar:w-[calc(100%-50px)] sm:w-full",
-      )}
-    >
+    <div className="flex flex-col gap-4">
+      <h4>Workspaces</h4>
       <Dialog
         open={showNewWorkspaceDialog}
         onOpenChange={setShowNewWorkspaceDialog}
       >
         <Select
           defaultValue={workspaces ? workspaces[0]?.id : ""}
+          value={workspaceId}
           onValueChange={setWorkspaceId}
           onOpenChange={setSelectOpen}
           open={selectOpen}
         >
           <SelectTrigger aria-label="Select Workspace">
-            <SelectValue placeholder="Select a workspace">
+            <SelectValue placeholder="Select a workspace" defaultChecked>
               <div className="flex gap-2">
                 <span>
                   {
@@ -93,7 +89,7 @@ export function WorkspaceSwitcher() {
             <SelectGroup>
               {workspaces?.map((workspace) => (
                 <SelectItem key={workspace.id} value={workspace.id}>
-                  <div className="flex items-center gap-3 [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:text-foreground">
+                  <div className="flex items-center gap-3">
                     <span>{workspace.logo}</span>
                     <span className="line-clamp-1">{workspace.title}</span>
                   </div>
@@ -112,7 +108,7 @@ export function WorkspaceSwitcher() {
                   className="w-full"
                 >
                   <PlusCircledIcon className="mr-2 h-5 w-5" />
-                  Create Workspace
+                  Add Workspace
                 </Button>
               </DialogTrigger>
             </SelectGroup>
@@ -126,7 +122,7 @@ export function WorkspaceSwitcher() {
             </DialogDescription>
           </DialogHeader>
           <CreateWorkspaceForm />
-          <DialogFooter>
+          <DialogFooter className="flex flex-col gap-2 sm:flex-row">
             <Button
               variant="outline"
               onClick={() => setShowNewWorkspaceDialog(false)}
@@ -138,7 +134,7 @@ export function WorkspaceSwitcher() {
               type="submit"
               onClick={() => setShowNewWorkspaceDialog(false)}
             >
-              Continue
+              Create
             </Button>
           </DialogFooter>
         </DialogContent>

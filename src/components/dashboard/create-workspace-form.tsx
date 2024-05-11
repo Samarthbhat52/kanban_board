@@ -49,6 +49,7 @@ const CreateWorkspaceForm = ({
     },
     onSuccess: async () => {
       await queryClient.refetchQueries({ queryKey: ["workspace"] });
+      router.refresh();
       toast.success("Workspace successfully created");
     },
     onError: () => {

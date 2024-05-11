@@ -88,7 +88,7 @@
     font-size: 1.2rem;
   }
   .dotted-bg {
-    --dot-size: 1px;
+    --dot-size: 3px;
     --dot-space: 40px;
     background:
       linear-gradient(
@@ -102,6 +102,6 @@
           transparent 1%
         )
         center / var(--dot-space) var(--dot-space),
-      hsl(var(--muted-foreground));
+      hsl(var(--muted));
   }
 }
