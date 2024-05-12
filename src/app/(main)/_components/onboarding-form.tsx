@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { SyncLoader } from "react-spinners";
 import { useTheme } from "next-themes";
@@ -21,7 +21,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import EmojiPicker from "../global/emoji-picker";
+import EmojiPicker from "../../../components/global/emoji-picker";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 

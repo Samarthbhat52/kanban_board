@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
 import {
   Popover,
   PopoverContent,
@@ -14,7 +13,6 @@ interface EmojiPickerProps {
 }
 
 const EmojiPicker: React.FC<EmojiPickerProps> = ({ children, getValue }) => {
-  const route = useRouter();
   const Picker = dynamic(() => import("emoji-picker-react"));
   const onClick = (selectedEmoji: any) => {
     if (getValue) getValue(selectedEmoji.emoji);
@@ -25,7 +23,7 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({ children, getValue }) => {
       <Popover>
         <PopoverTrigger className="cursor-pointer">{children}</PopoverTrigger>
         <PopoverContent className="w-fit border-none p-0">
-          <Picker width={300} height={400} onEmojiClick={onClick} />
+          <Picker width={200} height={300} onEmojiClick={onClick} />
         </PopoverContent>
       </Popover>
     </div>
