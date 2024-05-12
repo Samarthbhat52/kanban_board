@@ -11,7 +11,7 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className="flex h-[calc(100dvh)] w-full items-center justify-center p-2">
+    <div className="flex h-full w-full items-center justify-center p-2">
       {children}
     </div>
   );

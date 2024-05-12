@@ -13,23 +13,9 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
     return redirect("/");
   }
 
-  const { data: workspaceData, error: workspaceError } = await supabase
-    .from("workspaces")
-    .select("id")
-    .limit(1);
-
-  if (workspaceError) throw new Error(workspaceError.message);
-
-  if (!workspaceData.length) return <OnboardingForm />;
-
   return (
-    <div className="flex h-[calc(100dvh)] bg-background">
-      <Sidebar />
-      <Separator orientation="vertical" className="hidden sm:block" />
-
-      <div className="flex h-[calc(100dvh)] flex-1 items-center justify-center overflow-y-auto">
-        {children}
-      </div>
+    <div className="flex h-full flex-1 items-center justify-center overflow-y-auto">
+      {children}
     </div>
   );
 };
