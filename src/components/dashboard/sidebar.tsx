@@ -19,19 +19,15 @@ const Sidebar = () => {
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(isMobile);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(
+    isMobile ? isMobile : true,
+  );
 
   useEffect(() => {
     if (isMobile) {
       collapse();
     } else {
       resetWidth();
-    }
-  }, [isMobile]);
-
-  useEffect(() => {
-    if (isMobile) {
-      collapse();
     }
   }, [pathname, isMobile]);
 
