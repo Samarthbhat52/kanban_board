@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SeparatorWithLabel } from "@/components/global/SeparatorWithLabel";
-import { SocialButtons } from "@/components/auth/socials";
+import { SocialButtons } from "@/app/(auth)/_components/socials";
 import { createClient } from "@/lib/supabase/client";
 import { Spinner } from "@/components/global/spinner";
 import { toast } from "sonner";

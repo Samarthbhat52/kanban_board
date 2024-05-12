@@ -33,7 +33,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ReactQueryProvider>
-            <main className="h-[calc(100dvh)]">
+            <main className="h-full">
               <Toaster position="top-center" richColors />
               <MaxWidthWrapper>{children}</MaxWidthWrapper>
             </main>

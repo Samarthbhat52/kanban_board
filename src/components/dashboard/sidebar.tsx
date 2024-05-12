@@ -64,7 +64,7 @@ const Sidebar = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar flex h-[calc(100dvh)] w-[270px] flex-col justify-between overflow-y-auto p-2",
+          "group/sidebar flex h-full w-[270px] flex-col justify-between overflow-y-auto p-2",
           isResetting && "transition-all duration-300 ease-in-out",
           isCollapsed && "p-0",
           isMobile && "w-0",

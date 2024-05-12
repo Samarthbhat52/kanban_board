@@ -78,10 +78,10 @@ const OnboardingForm = () => {
   };
 
   return (
-    <div className="flex h-[calc(100dvh)] w-full max-w-[1920px] items-start justify-center pt-2 sm:items-center sm:pt-0">
+    <div className="flex h-full w-full max-w-[1920px] items-start justify-center pt-2 sm:items-center sm:pt-0">
       <div
         aria-hidden="true"
-        className="sm:-top-30 pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[calc(100dvh)] w-full transform-gpu overflow-hidden blur-3xl"
+        className="sm:-top-30 pointer-events-none absolute inset-x-0 -top-40 -z-10 h-full w-full transform-gpu overflow-hidden blur-3xl"
       >
         <div
           style={{
@@ -97,7 +97,7 @@ const OnboardingForm = () => {
         exit="exit"
         variants={variants}
         transition={{ duration: 0.5 }}
-        className="mx-2 flex h-[calc(100dvh)] w-full flex-col items-center justify-center sm:w-4/5"
+        className="mx-2 flex h-full w-full flex-col items-center justify-center sm:w-4/5"
       >
         {step == 1 && (
           <motion.div

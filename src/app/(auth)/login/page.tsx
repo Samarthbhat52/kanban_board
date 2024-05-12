@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/auth/login-form";
+import { LoginForm } from "@/app/(auth)/_components/login-form";
 import Image from "next/image";
 
 const LoginPage = () => {
@@ -36,14 +36,14 @@ const LoginPage = () => {
           alt="Image"
           width="1920"
           height="1080"
-          className="h-[calc(100dvh)] w-full bg-background object-contain dark:hidden"
+          className="h-full w-full bg-background object-contain dark:hidden"
         />
         <Image
           src="https://vsxovmocmtqxdqbjgwou.supabase.co/storage/v1/object/public/Assets/login-light.png?t=2024-05-03T03%3A36%3A54.061Z"
           alt="Image"
           width="1920"
           height="1080"
-          className="text-red hidden h-[calc(100dvh)] w-full bg-background object-contain dark:block"
+          className="text-red hidden h-full w-full bg-background object-contain dark:block"
         />
       </div>
     </div>
