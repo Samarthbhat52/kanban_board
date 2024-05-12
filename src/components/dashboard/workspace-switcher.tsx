@@ -46,8 +46,8 @@ export function WorkspaceSwitcher() {
 
   if (isLoading)
     return (
-      <div className="flex h-12 items-center justify-center sm:w-[240px]">
-        <Spinner size="lg" />
+      <div className="flex h-12 w-full items-center justify-center">
+        <Spinner size="default" />
       </div>
     );
 

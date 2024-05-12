@@ -2,11 +2,31 @@ import { useQuery } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
-interface boardsListProps {
-  workspaceId: string;
+export function useBoardExistsQuery(workspaceId: string | undefined) {
+  const supabase = createClient();
+
+  return useQuery({
+    queryKey: ["boards", "exists", workspaceId],
+    queryFn: async () => {
+      if (workspaceId) {
+        const { count, error } = await supabase
+          .from("boards")
+          .select("id", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId)
+          .order("created_at", { ascending: false });
+
+        if (error) throw new Error(error.message);
+
+        if (!count || count == 0) return false;
+
+        return true;
+      }
+      return false;
+    },
+  });
 }
 
-export function useBoardsListQuery({ workspaceId }: boardsListProps) {
+export function useBoardsListQuery(workspaceId: string | undefined) {
   const supabase = createClient();
 
   return useQuery({
@@ -16,7 +36,8 @@ export function useBoardsListQuery({ workspaceId }: boardsListProps) {
         const { data, error } = await supabase
           .from("boards")
           .select("name, logo, id")
-          .eq("workspace_id", workspaceId);
+          .eq("workspace_id", workspaceId)
+          .order("created_at", { ascending: false });
 
         if (error)
           toast.error("something went wrong. Please try reloading the page.");

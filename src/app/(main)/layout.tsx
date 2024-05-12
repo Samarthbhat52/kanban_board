@@ -26,6 +26,7 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
     <div className="flex h-[calc(100dvh)] bg-background">
       <Sidebar />
       <Separator orientation="vertical" className="hidden sm:block" />
+
       <div className="flex h-[calc(100dvh)] flex-1 items-center justify-center overflow-y-auto">
         {children}
       </div>
