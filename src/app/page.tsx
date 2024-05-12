@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import Image from "next/image";
+import Logo from "@/components/global/logo";
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
@@ -39,22 +39,7 @@ export default async function HomePage() {
       </div>
       <div className="flex h-full w-full flex-col items-center gap-10 px-2 text-center sm:gap-5">
         <nav className="flex w-full items-center justify-between py-5">
-          <Link href="/">
-            <Image
-              src="/logo-coloured.svg"
-              width="150"
-              height="80"
-              alt="Logo"
-              className="w-200 dark:hidden"
-            />
-            <Image
-              src="/logo-light.svg"
-              width="150"
-              height="80"
-              alt="Logo"
-              className="w-200 hidden dark:block"
-            />
-          </Link>
+          <Logo />
           <Link
             className={buttonVariants({
               size: "sm",

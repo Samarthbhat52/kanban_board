@@ -25,6 +25,7 @@ import Image from "next/image";
 import { useSearchParams, redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
+import Logo from "@/components/global/logo";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -85,20 +86,7 @@ const ConfirmOtpPage = () => {
           name="pin"
           render={({ field }) => (
             <FormItem className="flex flex-col items-center">
-              <Image
-                src="/logo-dark.svg"
-                width="150"
-                height="80"
-                alt="Logo"
-                className="w-200 mx-auto dark:hidden"
-              />
-              <Image
-                src="/logo-light.svg"
-                width="150"
-                height="80"
-                alt="Logo"
-                className="w-200 mx-auto hidden dark:block"
-              />
+              <Logo />
               <h2>OTP Verification</h2>
               <FormDescription className="max-w-[40ch] text-center">
                 Please enter the one-time password sent to{" "}
