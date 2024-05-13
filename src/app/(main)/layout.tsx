@@ -14,14 +14,14 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
 
   // TODO: Uncomment the workspace checker.
 
-  // const { data: workspaceData, error: workspaceError } = await supabase
-  //   .from("workspaces")
-  //   .select("id")
-  //   .limit(1);
+  const { data: workspaceData, error: workspaceError } = await supabase
+    .from("workspaces")
+    .select("id")
+    .limit(1);
 
-  // if (workspaceError) throw new Error(workspaceError.message);
+  if (workspaceError) throw new Error(workspaceError.message);
 
-  // if (!workspaceData.length) return <OnboardingForm />;
+  if (!workspaceData.length) return <OnboardingForm />;
 
   return (
     <div className="h-full">
