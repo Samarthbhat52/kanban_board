@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion } from "@/components/ui/accordion";
 import { useLocalStorage } from "usehooks-ts";
@@ -11,6 +9,17 @@ import { useState } from "react";
 import useWorkspaceQuery from "@/hooks/use-workspace-query";
 import { Workspace, NavItem } from "./nav-item";
 import { usePathname } from "next/navigation";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import CreateWorkspaceForm from "@/components/dashboard/create-workspace-form";
 
 interface SidebarProps {
   // Used to keep track of the open states of accordions in the sidebar.
@@ -25,6 +34,9 @@ const Sidebar = ({ storageKey = "b-sidebar-state" }: SidebarProps) => {
     storageKey,
     {},
   );
+
+  // Manage dialog open states
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   // Checks all the accordions to see which has the value of expanded.
   const defautAccordionValue: string[] = Object.keys(expanded).reduce(
@@ -69,11 +81,34 @@ const Sidebar = ({ storageKey = "b-sidebar-state" }: SidebarProps) => {
     <>
       <div className="flex items-center justify-between">
         <p className="font-semibold">Workspaces</p>
-        <Button asChild variant="ghost" size="sm">
-          <Link href={""}>
-            <Plus className="h-4 w-4" />
-          </Link>
-        </Button>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogTrigger>
+            <Button variant="ghost" size="sm">
+              <Plus className="h-4 w-4" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create workspace</DialogTitle>
+              <DialogDescription>
+                Add a new workspace to manage boards and tasks.
+              </DialogDescription>
+            </DialogHeader>
+            <CreateWorkspaceForm />
+            <DialogFooter className="flex flex-col gap-2 sm:flex-row">
+              <Button variant="outline" onClick={() => setDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                form="createWorkspace"
+                type="submit"
+                onClick={() => setDialogOpen(false)}
+              >
+                Create
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       <Accordion
         type="multiple"

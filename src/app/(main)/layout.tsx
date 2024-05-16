@@ -12,8 +12,6 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
     return redirect("/");
   }
 
-  // TODO: Uncomment the workspace checker.
-
   const { data: workspaceData, error: workspaceError } = await supabase
     .from("workspaces")
     .select("id")

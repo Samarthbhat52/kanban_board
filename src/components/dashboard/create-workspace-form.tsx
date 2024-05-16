@@ -25,31 +25,44 @@ const formSchema = z.object({
 });
 
 interface CreateWorkspaceFormProps {
-  submitButton?: boolean;
+  icon?: string;
+  title?: string;
+  workspaceId?: string;
+  update?: boolean;
 }
 
 const CreateWorkspaceForm = ({
-  submitButton = false,
+  title,
+  icon,
+  workspaceId,
+  update = false,
 }: CreateWorkspaceFormProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const supabase = createClient();
-  const [logo, setLogo] = useState("🐱");
+  const [logo, setLogo] = useState(icon || "🐱");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      title: title || "",
     },
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: createWsp, isPending: isCreateWspPending } = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
-      await supabase.from("workspaces").insert({ ...values, logo });
+      const { data, error } = await supabase
+        .from("workspaces")
+        .insert({ ...values, logo })
+        .select("id");
+
+      if (error) throw error;
+
+      return data;
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.refetchQueries({ queryKey: ["workspace"] });
-      router.refresh();
+      router.replace(`/dashboard/${data[0]?.id}`);
       toast.success("Workspace successfully created");
     },
     onError: () => {
@@ -57,8 +70,25 @@ const CreateWorkspaceForm = ({
     },
   });
 
+  const { mutate: updateWsp, isPending: isUpdateWspPending } = useMutation({
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      await supabase
+        .from("workspaces")
+        .update({ ...values, logo })
+        .eq("id", workspaceId!);
+    },
+    onSuccess: async () => {
+      await queryClient.refetchQueries({ queryKey: ["workspace"] });
+      router.refresh();
+      toast.success("Workspace successfully updated");
+    },
+    onError: () => {
+      toast.error("Error while updating Workspace. Please try again.");
+    },
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate(values);
+    update ? updateWsp(values) : createWsp(values);
   }
 
   return (
@@ -88,16 +118,6 @@ const CreateWorkspaceForm = ({
               )}
             />
           </div>
-          {submitButton && (
-            <Button className="w-full" type="submit">
-              {isPending && (
-                <div className="mr-2">
-                  <Spinner size="sm" />
-                </div>
-              )}
-              Submit
-            </Button>
-          )}
         </form>
       </Form>
     </>
