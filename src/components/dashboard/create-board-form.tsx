@@ -12,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
@@ -24,26 +23,35 @@ const formSchema = z.object({
 
 interface CreateBoardFormProps {
   workspaceId: string;
+  boardId?: string;
+  logo?: string;
+  title?: string;
+  update?: string;
 }
 
-const CreateBoardForm = ({ workspaceId }: CreateBoardFormProps) => {
-  const router = useRouter();
+const CreateBoardForm = ({
+  workspaceId,
+  boardId,
+  logo,
+  title,
+  update,
+}: CreateBoardFormProps) => {
   const queryClient = useQueryClient();
   const supabase = createClient();
-  const [logo, setLogo] = useState("🐹");
+  const [boardLogo, setBoardLogo] = useState(logo || "🐹");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      name: title || "",
     },
   });
 
-  const { mutate } = useMutation({
+  const { mutate: createBoard } = useMutation({
     mutationFn: async (values: z.infer<typeof formSchema>) => {
       await supabase
         .from("boards")
-        .insert({ ...values, logo, workspace_id: workspaceId });
+        .insert({ ...values, logo: boardLogo, workspace_id: workspaceId });
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -57,8 +65,27 @@ const CreateBoardForm = ({ workspaceId }: CreateBoardFormProps) => {
     },
   });
 
+  const { mutate: updateBoard } = useMutation({
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      await supabase
+        .from("boards")
+        .insert({ ...values, logo: boardLogo, workspace_id: workspaceId })
+        .eq("id", boardId!);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["boards"],
+      });
+      form.reset();
+      toast.success("Board successfully updated");
+    },
+    onError: () => {
+      toast.error("Error while updating board. Please try again.");
+    },
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate(values);
+    update ? updateBoard(values) : createBoard(values);
   }
 
   return (
@@ -71,8 +98,8 @@ const CreateBoardForm = ({ workspaceId }: CreateBoardFormProps) => {
         >
           <div className="flex items-center gap-4">
             <div className="text-5xl">
-              <EmojiPicker getValue={(emoji) => setLogo(emoji)}>
-                {logo}
+              <EmojiPicker getValue={(emoji) => setBoardLogo(emoji)}>
+                {boardLogo}
               </EmojiPicker>
             </div>
             <FormField
