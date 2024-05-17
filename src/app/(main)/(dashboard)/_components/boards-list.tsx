@@ -6,6 +6,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 const BoardsList = ({ workspaceId }: { workspaceId: string }) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["boards", "list", workspaceId],
