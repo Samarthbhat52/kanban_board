@@ -1,10 +1,30 @@
 "use client";
 
+import { getBoards } from "@/actions/boards";
 import { Button } from "@/components/ui/button";
-import { useBoardsListQuery } from "@/hooks/use-boards-query";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const BoardsList = ({ workspaceId }: { workspaceId: string }) => {
-  const { data, isLoading } = useBoardsListQuery(workspaceId);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["boards", "list", workspaceId],
+    queryFn: () => getBoards(workspaceId),
+  });
+
+  if (isLoading) {
+    return (
+      <>
+        <Skeleton className="h-28 w-full" />
+        <Skeleton className="h-28 w-full" />
+        <Skeleton className="h-28 w-full" />
+      </>
+    );
+  }
+
+  if (error) {
+    toast.error(error.message);
+  }
 
   return (
     <>

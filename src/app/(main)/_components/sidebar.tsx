@@ -6,7 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion } from "@/components/ui/accordion";
 import { useLocalStorage } from "usehooks-ts";
 import { useState } from "react";
-import useWorkspaceQuery from "@/hooks/use-workspace-query";
 import { Workspace, NavItem } from "./nav-item";
 import { usePathname } from "next/navigation";
 
@@ -20,6 +19,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import CreateWorkspaceForm from "@/components/dashboard/create-workspace-form";
+import { useQuery } from "@tanstack/react-query";
+import { getWorkspaces } from "@/actions/workspaces";
+import { toast } from "sonner";
 
 interface SidebarProps {
   // Used to keep track of the open states of accordions in the sidebar.
@@ -58,8 +60,18 @@ const Sidebar = ({ storageKey = "b-sidebar-state" }: SidebarProps) => {
     }));
   };
 
-  const { data: WorkspaceList, isLoading: isWspLoading } = useWorkspaceQuery();
   const pathname = usePathname();
+
+  // const { data: WorkspaceList, isLoading: isWspLoading } = useWorkspaceQuery();
+
+  const {
+    data: WorkspaceList,
+    isLoading: isWspLoading,
+    error,
+  } = useQuery({
+    queryKey: ["workspace"],
+    queryFn: () => getWorkspaces(),
+  });
 
   if (isWspLoading) {
     return (
@@ -75,6 +87,10 @@ const Sidebar = ({ storageKey = "b-sidebar-state" }: SidebarProps) => {
         </div>
       </>
     );
+  }
+
+  if (error) {
+    toast.error(error.message);
   }
 
   return (
