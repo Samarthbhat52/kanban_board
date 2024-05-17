@@ -1,6 +1,5 @@
 "use client";
 
-import useWorkspaceIdStore from "@/stores/workspaceIdStore";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,8 +21,6 @@ const CreateBoardComponent = ({
   children: React.ReactNode;
   workspaceId: string;
 }) => {
-  // const { workspaceId } = useWorkspaceIdStore();
-
   return (
     <Dialog>
       <DialogTrigger>{children}</DialogTrigger>

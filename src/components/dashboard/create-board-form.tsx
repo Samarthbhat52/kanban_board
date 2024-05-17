@@ -13,20 +13,19 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { toast } from "sonner";
+import { createBoard } from "@/actions/boards";
 
-const formSchema = z.object({
+const createBoardFormSchema = z.object({
   name: z.string().min(2).max(50),
 });
 
 interface CreateBoardFormProps {
   workspaceId: string;
-  boardId?: string;
+  boardId?: number;
   logo?: string;
   title?: string;
-  update?: string;
 }
 
 const CreateBoardForm = ({
@@ -34,25 +33,19 @@ const CreateBoardForm = ({
   boardId,
   logo,
   title,
-  update,
 }: CreateBoardFormProps) => {
   const queryClient = useQueryClient();
-  const supabase = createClient();
   const [boardLogo, setBoardLogo] = useState(logo || "🐹");
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof createBoardFormSchema>>({
+    resolver: zodResolver(createBoardFormSchema),
     defaultValues: {
       name: title || "",
     },
   });
 
-  const { mutate: createBoard } = useMutation({
-    mutationFn: async (values: z.infer<typeof formSchema>) => {
-      await supabase
-        .from("boards")
-        .insert({ ...values, logo: boardLogo, workspace_id: workspaceId });
-    },
+  const { mutate: server_mutateBoard } = useMutation({
+    mutationFn: createBoard,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["boards"],
@@ -65,27 +58,13 @@ const CreateBoardForm = ({
     },
   });
 
-  const { mutate: updateBoard } = useMutation({
-    mutationFn: async (values: z.infer<typeof formSchema>) => {
-      await supabase
-        .from("boards")
-        .insert({ ...values, logo: boardLogo, workspace_id: workspaceId })
-        .eq("id", boardId!);
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["boards"],
-      });
-      form.reset();
-      toast.success("Board successfully updated");
-    },
-    onError: () => {
-      toast.error("Error while updating board. Please try again.");
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    update ? updateBoard(values) : createBoard(values);
+  function onSubmit(values: z.infer<typeof createBoardFormSchema>) {
+    server_mutateBoard({
+      name: values.name,
+      logo: boardLogo,
+      workspaceId: workspaceId,
+      boardId: boardId,
+    });
   }
 
   return (
