@@ -41,7 +41,7 @@ const DashboardPage = async ({
         <h3>Your Boards</h3>
       </div>
 
-      <div className="grid grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 md:grid-cols-4">
+      <div className="grid grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <CreateBoardComponent workspaceId={params.workspaceId}>
           <div className="flex h-28 w-full flex-col items-center justify-center gap-2 rounded-md bg-muted p-3">
             Create a board

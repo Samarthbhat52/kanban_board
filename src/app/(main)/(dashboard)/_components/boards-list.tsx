@@ -36,16 +36,25 @@ const BoardsList = ({ workspaceId }: { workspaceId: string }) => {
   return (
     <>
       {data?.map((board) => (
-        <Button
-          variant="ghost"
-          key={board.id}
-          className="h-28 w-full rounded-md border p-3"
-        >
-          <p className="flex items-center gap-2 capitalize">
-            <span className="text-lg">{board.logo}</span>
-            {board.name}
-          </p>
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                key={board.id}
+                className="h-28 w-full rounded-md border p-3"
+              >
+                <p className="line-clamp-1 flex items-center gap-2 capitalize">
+                  <span className="text-lg">{board.logo}</span>
+                  {board.name}
+                </p>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{board.name}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       ))}
     </>
   );
