@@ -24,6 +24,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -51,6 +52,7 @@ const MutateBoardComponent = ({
   logo,
   title,
 }: CreateBoardComponentProps) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [boardLogo, setBoardLogo] = useState(logo || "🐹");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -64,11 +66,12 @@ const MutateBoardComponent = ({
 
   const { mutate: server_mutateBoard, isPending } = useMutation({
     mutationFn: createBoard,
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: ["boards"],
       });
       setDialogOpen(false);
+      router.replace(`/board/${data[0]?.id}`);
       toast.success("Board successfully created");
     },
     onError: () => {

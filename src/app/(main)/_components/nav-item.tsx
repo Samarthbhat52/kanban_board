@@ -77,9 +77,9 @@ export const NavItem = ({
             key={route.href}
             href={route.href}
             className={cn(
-              "mb-1 w-full justify-start pl-10 text-start",
               pathname == route.href && "bg-sky-500/10 text-sky-700",
               buttonVariants({ variant: "ghost" }),
+              "mb-1 w-full justify-start pl-10",
             )}
           >
             {route.icon}
