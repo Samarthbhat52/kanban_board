@@ -29,7 +29,10 @@ interface createBoardProps {
 export const createBoard = async (values: createBoardProps) => {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from("boards").upsert(values);
+  const { data, error } = await supabase
+    .from("boards")
+    .upsert(values)
+    .select("id");
 
   if (error) throw new Error(error.message);
 
