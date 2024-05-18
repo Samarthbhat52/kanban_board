@@ -1,0 +1,144 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+
+import EmojiPicker from "@/components/global/emoji-picker";
+import { createBoard } from "@/actions/boards";
+import { Spinner } from "@/components/global/spinner";
+
+const mutateBoardFormSchema = z.object({
+  name: z.string().min(2).max(50),
+});
+
+interface CreateBoardComponentProps {
+  children: React.ReactNode;
+  workspaceId: string;
+  boardId?: number;
+  logo?: string;
+  title?: string;
+}
+
+const MutateBoardComponent = ({
+  children,
+  workspaceId,
+  boardId,
+  logo,
+  title,
+}: CreateBoardComponentProps) => {
+  const queryClient = useQueryClient();
+  const [boardLogo, setBoardLogo] = useState(logo || "🐹");
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const form = useForm<z.infer<typeof mutateBoardFormSchema>>({
+    resolver: zodResolver(mutateBoardFormSchema),
+    defaultValues: {
+      name: title || "",
+    },
+  });
+
+  const { mutate: server_mutateBoard, isPending } = useMutation({
+    mutationFn: createBoard,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["boards"],
+      });
+      setDialogOpen(false);
+      toast.success("Board successfully created");
+    },
+    onError: () => {
+      toast.error("Error while creating board. Please try again.");
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof mutateBoardFormSchema>) {
+    server_mutateBoard({
+      name: values.name,
+      logo: boardLogo,
+      workspace_id: workspaceId,
+      id: boardId,
+    });
+  }
+
+  return (
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DialogTrigger>{children}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create a new board</DialogTitle>
+          <DialogDescription>
+            Create a new board to manage your tasks
+          </DialogDescription>
+        </DialogHeader>
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            id="createBoard"
+            className="space-y-8"
+          >
+            <div className="flex items-center gap-4">
+              <div className="text-5xl">
+                <EmojiPicker getValue={(emoji) => setBoardLogo(emoji)}>
+                  {boardLogo}
+                </EmojiPicker>
+              </div>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Input placeholder="Board Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </form>
+        </Form>
+
+        <DialogFooter className="flex flex-col gap-2 sm:flex-row">
+          <Button form="createBoard" type="submit">
+            {isPending && (
+              <div className="mr-2">
+                <Spinner size="sm" />
+              </div>
+            )}
+            Create
+          </Button>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+export default MutateBoardComponent;

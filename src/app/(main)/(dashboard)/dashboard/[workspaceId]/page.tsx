@@ -2,9 +2,9 @@ import { Separator } from "@/components/ui/separator";
 import { PlusCircle, User2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import BoardsList from "../../_components/boards-list";
-import { redirect } from "next/navigation";
-import CreateBoardComponent from "../../_components/create-board";
+import MutateBoardComponent from "../../_components/create-board-form";
 import dayjs from "dayjs";
+import { notFound } from "next/navigation";
 
 const DashboardPage = async ({
   params,
@@ -20,7 +20,7 @@ const DashboardPage = async ({
     .single();
 
   if (error || !data) {
-    return redirect("/");
+    notFound();
   }
 
   return (
@@ -42,12 +42,12 @@ const DashboardPage = async ({
       </div>
 
       <div className="grid grid-cols-1 items-center justify-center gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <CreateBoardComponent workspaceId={params.workspaceId}>
+        <MutateBoardComponent workspaceId={params.workspaceId}>
           <div className="flex h-28 w-full flex-col items-center justify-center gap-2 rounded-md bg-muted p-3">
             Create a board
             <PlusCircle />
           </div>
-        </CreateBoardComponent>
+        </MutateBoardComponent>
         <BoardsList workspaceId={params.workspaceId} />
       </div>
     </div>

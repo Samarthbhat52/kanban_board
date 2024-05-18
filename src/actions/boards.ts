@@ -22,21 +22,14 @@ export const getBoards = async (workspaceId: string | undefined) => {
 interface createBoardProps {
   name: string;
   logo: string;
-  workspaceId: string;
-  boardId?: number | undefined;
+  workspace_id: string;
+  id?: number | undefined;
 }
 
-export const createBoard = async ({
-  name,
-  logo,
-  workspaceId,
-  boardId,
-}: createBoardProps) => {
+export const createBoard = async (values: createBoardProps) => {
   const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from("boards")
-    .upsert({ id: boardId, name, logo, workspace_id: workspaceId });
+  const { data, error } = await supabase.from("boards").upsert(values);
 
   if (error) throw new Error(error.message);
 

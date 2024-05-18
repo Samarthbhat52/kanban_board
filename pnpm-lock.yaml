@@ -59,6 +59,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.34.1
         version: 5.34.1(@tanstack/react-query@5.34.1(react@18.2.0))(react@18.2.0)
+      '@types/lodash':
+        specifier: ^4.17.4
+        version: 4.17.4
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -80,6 +83,9 @@ importers:
       input-otp:
         specifier: ^1.2.4
         version: 1.2.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       lucide-react:
         specifier: ^0.376.0
         version: 0.376.0(react@18.2.0)
@@ -92,6 +98,9 @@ importers:
       postgres:
         specifier: ^3.4.3
         version: 3.4.4
+      punycode:
+        specifier: ^2.3.1
+        version: 2.3.1
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -815,6 +824,9 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+
+  '@types/lodash@4.17.4':
+    resolution: {integrity: sha512-wYCP26ZLxaT3R39kiN2+HcJ4kTd3U1waI/cY7ivWYqFP6pW3ZNpvi6Wd6PHZx7T/t8z0vlkXMg3QYLa7DZ/IJQ==}
 
   '@types/node@20.12.7':
     resolution: {integrity: sha512-wq0cICSkRLVaf3UGLMGItu/PtdY7oaXaI/RVU+xliKVOtRna3PRY57ZDfztpDL0n11vfymMUnXv8QwYCO7L1wg==}
@@ -1724,6 +1736,9 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+
+  lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -3216,6 +3231,8 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
+  '@types/lodash@4.17.4': {}
+
   '@types/node@20.12.7':
     dependencies:
       undici-types: 5.26.5
@@ -4340,6 +4357,8 @@ snapshots:
   lodash.debounce@4.0.8: {}
 
   lodash.merge@4.6.2: {}
+
+  lodash@4.17.21: {}
 
   loose-envify@1.4.0:
     dependencies:

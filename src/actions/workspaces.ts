@@ -14,3 +14,24 @@ export const getWorkspaces = async () => {
 
   return data || [];
 };
+
+interface CreateWorkspaceProps {
+  title: string;
+  logo: string;
+  id?: string | undefined;
+}
+
+export const createWorkspace = async (values: CreateWorkspaceProps) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("workspaces")
+    .upsert(values)
+    .select("id");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data[0];
+};

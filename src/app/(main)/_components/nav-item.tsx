@@ -5,10 +5,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Activity, Layout, Settings } from "lucide-react";
+import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 export type Workspace = {
@@ -72,19 +73,18 @@ export const NavItem = ({
       </AccordionTrigger>
       <AccordionContent className="pt-1 text-neutral-700">
         {routes.map((route) => (
-          <Button
+          <Link
             key={route.href}
-            size="sm"
-            onClick={() => onClick(route.href)}
-            variant="ghost"
+            href={route.href}
             className={cn(
-              "mb-1 w-full justify-start pl-10",
+              "mb-1 w-full justify-start pl-10 text-start",
               pathname == route.href && "bg-sky-500/10 text-sky-700",
+              buttonVariants({ variant: "ghost" }),
             )}
           >
             {route.icon}
             {route.label}
-          </Button>
+          </Link>
         ))}
       </AccordionContent>
     </AccordionItem>

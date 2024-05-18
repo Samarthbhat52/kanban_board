@@ -13,8 +13,12 @@ const config = {
         hostname: "**.supabase.co",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "**.googleusercontent.com",
+        port: "",
+      },
     ],
-    domains: ["lh3.googleusercontent.com", "vsxovmocmtqxdqbjgwou.supabase.co"],
   },
 };
 

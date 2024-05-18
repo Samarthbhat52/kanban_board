@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion } from "@/components/ui/accordion";
 import { useLocalStorage } from "usehooks-ts";
@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -18,10 +19,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import CreateWorkspaceForm from "@/components/dashboard/create-workspace-form";
+import CreateWorkspaceForm from "@/app/(main)/(dashboard)/_components/create-workspace-form";
 import { useQuery } from "@tanstack/react-query";
 import { getWorkspaces } from "@/actions/workspaces";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   // Used to keep track of the open states of accordions in the sidebar.
@@ -97,34 +99,11 @@ const Sidebar = ({ storageKey = "b-sidebar-state" }: SidebarProps) => {
     <>
       <div className="flex items-center justify-between">
         <p className="font-semibold">Workspaces</p>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger>
-            <Button variant="ghost" size="sm">
-              <Plus className="h-4 w-4" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create workspace</DialogTitle>
-              <DialogDescription>
-                Add a new workspace to manage boards and tasks.
-              </DialogDescription>
-            </DialogHeader>
-            <CreateWorkspaceForm />
-            <DialogFooter className="flex flex-col gap-2 sm:flex-row">
-              <Button variant="outline" onClick={() => setDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button
-                form="createWorkspace"
-                type="submit"
-                onClick={() => setDialogOpen(false)}
-              >
-                Create
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <CreateWorkspaceForm>
+          <div className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
+            <Plus className="h-4 w-4" />
+          </div>
+        </CreateWorkspaceForm>
       </div>
       <Accordion
         type="multiple"
