@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { SyncLoader } from "react-spinners";
 import { useTheme } from "next-themes";
-import { createClient } from "@/lib/supabase/client";
 
 import {
   Form,
@@ -24,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import EmojiPicker from "../../../components/global/emoji-picker";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+import { createWorkspace } from "@/actions/workspaces";
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
@@ -35,7 +35,6 @@ const OnboardingForm = () => {
 
   const router = useRouter();
   const queryClient = useQueryClient();
-  const supabase = createClient();
   const { theme } = useTheme();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -56,22 +55,21 @@ const OnboardingForm = () => {
   };
 
   const stepTwoSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate(values);
+    server_mutateWsp({ title: values.title, logo: logo });
   };
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (values: z.infer<typeof formSchema>) => {
-      await supabase.from("workspaces").insert({ ...values, logo });
-    },
-    onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ["workspace"] });
-      router.refresh();
-      toast.success("Workspace successfully created");
-    },
-    onError: () => {
-      toast.error("Error while creating Workspace. Please try again.");
-    },
-  });
+  const { mutate: server_mutateWsp, isPending: isCreateWspPending } =
+    useMutation({
+      mutationFn: createWorkspace,
+      onSuccess: async (data) => {
+        await queryClient.refetchQueries({ queryKey: ["workspace"] });
+        router.refresh();
+        toast.success("Workspace successfully created");
+      },
+      onError: () => {
+        toast.error("Error while creating Workspace. Please try again.");
+      },
+    });
 
   const goBack = () => {
     setStep(1);
@@ -132,7 +130,7 @@ const OnboardingForm = () => {
                   )}
                 />
 
-                <Button type="submit" disabled={isPending}>
+                <Button type="submit" disabled={isCreateWspPending}>
                   Continue
                 </Button>
               </form>
@@ -168,7 +166,7 @@ const OnboardingForm = () => {
                   </Button>
                   <Button type="submit">Create</Button>
                 </div>
-                {isPending && (
+                {isCreateWspPending && (
                   <div className="flex items-center gap-3">
                     <SyncLoader color={theme === "dark" ? "#fff" : "black"} />
                     <span>Your workspace is getting ready</span>
