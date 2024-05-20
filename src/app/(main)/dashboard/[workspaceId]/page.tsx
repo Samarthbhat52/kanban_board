@@ -1,6 +1,6 @@
 import { PlusCircle, User2 } from "lucide-react";
-import BoardsList from "../../_components/boards-list";
-import MutateBoardComponent from "../../_components/create-board-form";
+import BoardsList from "../_components/boards-list";
+import MutateBoardComponent from "../_components/create-board-form";
 
 const DashboardPage = async ({
   params,

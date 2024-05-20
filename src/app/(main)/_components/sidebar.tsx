@@ -1,25 +1,14 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion } from "@/components/ui/accordion";
 import { useLocalStorage } from "usehooks-ts";
-import { useState } from "react";
 import { Workspace, NavItem } from "./nav-item";
 import { usePathname } from "next/navigation";
 
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import CreateWorkspaceForm from "@/app/(main)/(dashboard)/_components/create-workspace-form";
+import CreateWorkspaceForm from "@/app/(main)/_components/create-workspace-form";
 import { useQuery } from "@tanstack/react-query";
 import { getWorkspaces } from "@/actions/workspaces";
 import { toast } from "sonner";
@@ -38,9 +27,6 @@ const Sidebar = ({ storageKey = "b-sidebar-state" }: SidebarProps) => {
     storageKey,
     {},
   );
-
-  // Manage dialog open states
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   // Checks all the accordions to see which has the value of expanded.
   const defautAccordionValue: string[] = Object.keys(expanded).reduce(

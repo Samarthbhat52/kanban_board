@@ -12,32 +12,32 @@ export type Database = {
       boards: {
         Row: {
           created_at: string
-          description: string | null
           end_date: string | null
-          id: number
-          logo: string | null
+          id: string
           name: string
+          priority: Database["public"]["Enums"]["priorities"]
           start_date: string | null
+          status: Database["public"]["Enums"]["status"]
           workspace_id: string
         }
         Insert: {
           created_at?: string
-          description?: string | null
           end_date?: string | null
-          id?: number
-          logo?: string | null
+          id?: string
           name: string
+          priority?: Database["public"]["Enums"]["priorities"]
           start_date?: string | null
+          status?: Database["public"]["Enums"]["status"]
           workspace_id?: string
         }
         Update: {
           created_at?: string
-          description?: string | null
           end_date?: string | null
-          id?: number
-          logo?: string | null
+          id?: string
           name?: string
+          priority?: Database["public"]["Enums"]["priorities"]
           start_date?: string | null
+          status?: Database["public"]["Enums"]["status"]
           workspace_id?: string
         }
         Relationships: [
@@ -84,31 +84,34 @@ export type Database = {
       }
       workspaces: {
         Row: {
-          banner_url: string | null
           created_at: string
           id: string
           in_trash: string | null
           logo: string | null
+          priority: Database["public"]["Enums"]["priorities"]
+          status: Database["public"]["Enums"]["status"]
           title: string
           updatedAt: string | null
           workspace_owner: string
         }
         Insert: {
-          banner_url?: string | null
           created_at?: string
           id?: string
           in_trash?: string | null
           logo?: string | null
+          priority?: Database["public"]["Enums"]["priorities"]
+          status?: Database["public"]["Enums"]["status"]
           title: string
           updatedAt?: string | null
           workspace_owner?: string
         }
         Update: {
-          banner_url?: string | null
           created_at?: string
           id?: string
           in_trash?: string | null
           logo?: string | null
+          priority?: Database["public"]["Enums"]["priorities"]
+          status?: Database["public"]["Enums"]["status"]
           title?: string
           updatedAt?: string | null
           workspace_owner?: string
@@ -131,7 +134,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      priorities: "critical" | "high" | "medium" | "low"
+      status: "inProgress" | "todo" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never

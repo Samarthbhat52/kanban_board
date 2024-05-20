@@ -29,7 +29,6 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-import EmojiPicker from "@/components/global/emoji-picker";
 import { createBoard } from "@/actions/boards";
 import { Spinner } from "@/components/global/spinner";
 
@@ -40,8 +39,7 @@ const mutateBoardFormSchema = z.object({
 interface CreateBoardComponentProps {
   children: React.ReactNode;
   workspaceId: string;
-  boardId?: number;
-  logo?: string;
+  boardId?: string;
   title?: string;
 }
 
@@ -49,12 +47,10 @@ const MutateBoardComponent = ({
   children,
   workspaceId,
   boardId,
-  logo,
   title,
 }: CreateBoardComponentProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [boardLogo, setBoardLogo] = useState(logo || "🐹");
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const form = useForm<z.infer<typeof mutateBoardFormSchema>>({
@@ -82,7 +78,6 @@ const MutateBoardComponent = ({
   function onSubmit(values: z.infer<typeof mutateBoardFormSchema>) {
     server_mutateBoard({
       name: values.name,
-      logo: boardLogo,
       workspace_id: workspaceId,
       id: boardId,
     });
@@ -105,25 +100,18 @@ const MutateBoardComponent = ({
             id="createBoard"
             className="space-y-8"
           >
-            <div className="flex items-center gap-4">
-              <div className="text-5xl">
-                <EmojiPicker getValue={(emoji) => setBoardLogo(emoji)}>
-                  {boardLogo}
-                </EmojiPicker>
-              </div>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormControl>
-                      <Input placeholder="Board Name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <Input placeholder="Board Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </form>
         </Form>
 
