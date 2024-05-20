@@ -21,12 +21,7 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
 
   if (!workspaceData.length) return <OnboardingForm />;
 
-  return (
-    <div className="h-full">
-      <Navbar />
-      {children}
-    </div>
-  );
+  return <div className="h-full">{children}</div>;
 };
 
 export default MainLayout;

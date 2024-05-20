@@ -8,7 +8,7 @@ export const getBoards = async (workspaceId: string | undefined) => {
   if (workspaceId) {
     const { data, error } = await supabase
       .from("boards")
-      .select("name, logo, id")
+      .select("name, id")
       .eq("workspace_id", workspaceId)
       .order("created_at", { ascending: false });
 
@@ -19,11 +19,27 @@ export const getBoards = async (workspaceId: string | undefined) => {
   return [];
 };
 
+export const getSingleBoard = async (boardId: string | undefined) => {
+  const supabase = createClient();
+
+  if (boardId) {
+    const { data, error } = await supabase
+      .from("boards")
+      .select("name, id, status, priority")
+      .eq("id", boardId)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+
+    return data;
+  }
+  return null;
+};
+
 interface createBoardProps {
   name: string;
-  logo: string;
   workspace_id: string;
-  id?: number | undefined;
+  id?: string | undefined;
 }
 
 export const createBoard = async (values: createBoardProps) => {

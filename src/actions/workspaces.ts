@@ -18,6 +18,8 @@ export const getWorkspaces = async () => {
 interface CreateWorkspaceProps {
   title: string;
   logo: string;
+  status?: "inProgress" | "todo" | "completed";
+  priority?: "critical" | "high" | "medium" | "low";
   id?: string | undefined;
 }
 

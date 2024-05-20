@@ -38,7 +38,7 @@ const BoardsList = ({ workspaceId }: { workspaceId: string }) => {
   return (
     <>
       {data?.map((board) => (
-        <TooltipProvider>
+        <TooltipProvider key={board.id}>
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
@@ -50,7 +50,6 @@ const BoardsList = ({ workspaceId }: { workspaceId: string }) => {
                 )}
               >
                 <p className="line-clamp-1 flex items-center gap-2 capitalize">
-                  <span className="text-lg">{board.logo}</span>
                   {board.name}
                 </p>
               </Link>
