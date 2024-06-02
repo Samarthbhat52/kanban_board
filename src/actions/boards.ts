@@ -8,7 +8,7 @@ export const getBoards = async (workspaceId: string | undefined) => {
   if (workspaceId) {
     const { data, error } = await supabase
       .from("boards")
-      .select("name, id")
+      .select("name, id, status, priority, due_date")
       .eq("workspace_id", workspaceId)
       .order("created_at", { ascending: false });
 
@@ -40,6 +40,9 @@ interface createBoardProps {
   name: string;
   workspace_id: string;
   id?: string | undefined;
+  priority: "low" | "medium" | "high" | "critical";
+  status: "todo" | "inProgress" | "completed";
+  due_date?: string;
 }
 
 export const createBoard = async (values: createBoardProps) => {
