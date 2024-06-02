@@ -12,31 +12,28 @@ export type Database = {
       boards: {
         Row: {
           created_at: string
-          end_date: string | null
+          due_date: string | null
           id: string
           name: string
           priority: Database["public"]["Enums"]["priorities"]
-          start_date: string | null
           status: Database["public"]["Enums"]["status"]
           workspace_id: string
         }
         Insert: {
           created_at?: string
-          end_date?: string | null
+          due_date?: string | null
           id?: string
           name: string
           priority?: Database["public"]["Enums"]["priorities"]
-          start_date?: string | null
           status?: Database["public"]["Enums"]["status"]
           workspace_id?: string
         }
         Update: {
           created_at?: string
-          end_date?: string | null
+          due_date?: string | null
           id?: string
           name?: string
           priority?: Database["public"]["Enums"]["priorities"]
-          start_date?: string | null
           status?: Database["public"]["Enums"]["status"]
           workspace_id?: string
         }
